@@ -1,0 +1,68 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Press Start 2P', cursive;
+  background: linear-gradient(45deg, #2d5016, #3d6b1a);
+  min-height: 100vh;
+  color: #ffffff;
+  overflow-x: auto;
+}
+
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Minecraft-style button base */
+.minecraft-btn {
+  background: linear-gradient(to bottom, #8b8b8b, #5a5a5a);
+  border: 3px solid;
+  border-color: #ffffff #404040 #404040 #ffffff;
+  color: #ffffff;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.1s;
+  text-shadow: 2px 2px 0px #000000;
+}
+
+.minecraft-btn:hover {
+  background: linear-gradient(to bottom, #9b9b9b, #6a6a6a);
+}
+
+.minecraft-btn:active {
+  border-color: #404040 #ffffff #ffffff #404040;
+  transform: translateY(1px);
+}
+
+/* Minecraft-style input */
+.minecraft-input {
+  background: #000000;
+  border: 3px solid;
+  border-color: #404040 #ffffff #ffffff #404040;
+  color: #ffffff;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+  padding: 8px;
+  outline: none;
+}
+
+.minecraft-input:focus {
+  background: #1a1a1a;
+  border-color: #ffffff #404040 #404040 #ffffff;
+}
+
+/* Minecraft-style panel */
+.minecraft-panel {
+  background: linear-gradient(to bottom, #c0c0c0, #808080);
+  border: 3px solid;
+  border-color: #ffffff #404040 #404040 #ffffff;
+  padding: 16px;
+  margin: 8px;
+}

@@ -1,0 +1,582 @@
+.control-panel {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a4c96, #2563eb);
+  padding: 20px;
+  font-family: 'Press Start 2P', cursive;
+}
+
+.control-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: linear-gradient(to bottom, #4a90e2, #357abd);
+  border: 3px solid;
+  border-color: #ffffff #1e3a8a #1e3a8a #ffffff;
+  border-radius: 8px;
+}
+
+.control-header h1 {
+  color: #ffffff;
+  font-size: 24px;
+  text-shadow: 3px 3px 0px #000000;
+}
+
+.nav-links {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.nav-links a {
+  color: #fbbf24;
+  text-decoration: none;
+  font-size: 12px;
+  padding: 8px 16px;
+  background: linear-gradient(to bottom, #fbbf24, #d97706);
+  border: 2px solid;
+  border-color: #ffffff #92400e #92400e #ffffff;
+  border-radius: 4px;
+  transition: all 0.1s;
+  text-shadow: 1px 1px 0px #000000;
+}
+
+.nav-links a:hover {
+  background: linear-gradient(to bottom, #fcd34d, #f59e0b);
+  transform: translateY(-1px);
+}
+
+.debug-toggle-btn {
+  background: linear-gradient(to bottom, #dc2626, #991b1b);
+  border: 2px solid;
+  border-color: #ffffff #7f1d1d #7f1d1d #ffffff;
+  border-radius: 4px;
+  color: #ffffff;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all 0.1s;
+  text-shadow: 1px 1px 0px #000000;
+}
+
+.debug-toggle-btn:hover {
+  background: linear-gradient(to bottom, #ef4444, #b91c1c);
+  transform: translateY(-1px);
+}
+
+/* Debug Panel */
+.debug-panel {
+  background: linear-gradient(to bottom, #1f2937, #111827);
+  border: 3px solid;
+  border-color: #ffffff #000000 #000000 #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.debug-panel h3 {
+  color: #fbbf24;
+  font-size: 16px;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 0px #000000;
+  text-align: center;
+}
+
+.debug-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.debug-section {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  border: 2px solid #4b5563;
+  border-radius: 6px;
+}
+
+.debug-section strong {
+  color: #fbbf24;
+  display: block;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+.debug-section pre {
+  background: #000000;
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 8px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #10b981;
+  border: 1px solid #374151;
+}
+
+/* Team Management Section */
+.team-management-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: linear-gradient(to bottom, #1e40af, #1e3a8a);
+  border: 3px solid;
+  border-color: #ffffff #1e3a8a #1e3a8a #ffffff;
+  border-radius: 8px;
+  flex-wrap: wrap;
+}
+
+.team-selector, .team-name-section, .create-team-section {
+  flex: 1;
+  min-width: 250px;
+  text-align: center;
+}
+
+.team-selector h2, .team-name-section h2 {
+  color: #fbbf24;
+  font-size: 14px;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 0px #000000;
+}
+
+.team-select-dropdown {
+  width: 100%;
+  background: #000000;
+  border: 3px solid;
+  border-color: #404040 #ffffff #ffffff #404040;
+  color: #ffffff;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+  padding: 10px;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+
+.team-select-dropdown:focus {
+  background: #1a1a1a;
+  border-color: #fbbf24 #d97706 #d97706 #fbbf24;
+}
+
+.team-select-dropdown option {
+  background: #000000;
+  color: #ffffff;
+  padding: 10px;
+}
+
+/* Team Name Section */
+.team-name-section {
+  background: linear-gradient(to bottom, #374151, #1f2937);
+  border: 3px solid;
+  border-color: #ffffff #111827 #111827 #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+}
+
+.team-name-input {
+  width: 100%;
+  max-width: 300px;
+  background: #000000;
+  border: 3px solid;
+  border-color: #404040 #ffffff #ffffff #404040;
+  color: #ffffff;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+  padding: 10px;
+  border-radius: 4px;
+  outline: none;
+  text-align: center;
+}
+
+.team-name-input:focus {
+  background: #1a1a1a;
+  border-color: #fbbf24 #d97706 #d97706 #fbbf24;
+}
+
+/* Create Team Section */
+.create-team-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.create-team-btn {
+  background: linear-gradient(to bottom, #059669, #047857);
+  border: 3px solid;
+  border-color: #ffffff #064e3b #064e3b #ffffff;
+  color: #ffffff;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  padding: 12px 16px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s;
+  text-shadow: 1px 1px 0px #000000;
+  white-space: nowrap;
+}
+
+.create-team-btn:hover {
+  background: linear-gradient(to bottom, #10b981, #059669);
+  transform: translateY(-1px);
+}
+
+.create-team-btn:active {
+  transform: translateY(1px);
+}
+
+.create-team-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 250px;
+}
+
+.new-team-input {
+  background: #000000;
+  border: 3px solid;
+  border-color: #404040 #ffffff #ffffff #404040;
+  color: #ffffff;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  padding: 8px;
+  border-radius: 4px;
+  outline: none;
+  text-align: center;
+}
+
+.new-team-input:focus {
+  background: #1a1a1a;
+  border-color: #fbbf24 #d97706 #d97706 #fbbf24;
+}
+
+.confirm-create-btn {
+  background: linear-gradient(to bottom, #dc2626, #991b1b);
+  border: 3px solid;
+  border-color: #ffffff #7f1d1d #7f1d1d #ffffff;
+  color: #ffffff;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.1s;
+  text-shadow: 1px 1px 0px #000000;
+}
+
+.confirm-create-btn:hover:not(:disabled) {
+  background: linear-gradient(to bottom, #ef4444, #b91c1c);
+  transform: translateY(-1px);
+}
+
+.confirm-create-btn:disabled {
+  background: #6b7280;
+  border-color: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Horizontal Layout for Controls */
+.controls-row {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.control-section {
+  background: linear-gradient(to bottom, #374151, #1f2937);
+  border: 3px solid;
+  border-color: #ffffff #111827 #111827 #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  min-height: 250px;
+  flex: 1;
+  min-width: 280px;
+  max-width: 320px;
+}
+
+.control-section h2 {
+  color: #fbbf24;
+  font-size: 16px;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 0px #000000;
+  text-align: center;
+}
+
+/* Health Controls */
+.health-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.health-btn {
+  background: linear-gradient(to bottom, #dc2626, #991b1b);
+  border: 3px solid;
+  border-color: #ffffff #7f1d1d #7f1d1d #ffffff;
+  color: #ffffff;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.1s;
+  text-shadow: 1px 1px 0px #000000;
+}
+
+.health-btn.increase {
+  background: linear-gradient(to bottom, #16a34a, #15803d);
+  border-color: #ffffff #14532d #14532d #ffffff;
+}
+
+.health-btn:hover {
+  transform: translateY(-1px);
+}
+
+.health-btn.decrease:hover {
+  background: linear-gradient(to bottom, #ef4444, #b91c1c);
+}
+
+.health-btn.increase:hover {
+  background: linear-gradient(to bottom, #22c55e, #16a34a);
+}
+
+.health-btn:active {
+  transform: translateY(1px);
+  border-color: #7f1d1d #ffffff #ffffff #7f1d1d;
+}
+
+.health-bar-preview {
+  width: 100%;
+  height: 20px;
+  background: #000000;
+  border: 2px solid #ffffff;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.health-fill {
+  height: 100%;
+  background: linear-gradient(to right, #16a34a, #22c55e);
+  transition: width 0.3s ease;
+}
+
+/* Resource Controls */
+.resource-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.resource-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid #4b5563;
+  border-radius: 4px;
+}
+
+.resource-item span {
+  color: #ffffff;
+  font-size: 12px;
+  text-shadow: 1px 1px 0px #000000;
+}
+
+.resource-buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.resource-btn {
+  background: linear-gradient(to bottom, #6b7280, #4b5563);
+  border: 2px solid;
+  border-color: #ffffff #374151 #374151 #ffffff;
+  color: #ffffff;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.1s;
+  text-shadow: 1px 1px 0px #000000;
+  min-width: 30px;
+}
+
+.resource-btn.decrease {
+  background: linear-gradient(to bottom, #dc2626, #991b1b);
+  border-color: #ffffff #7f1d1d #7f1d1d #ffffff;
+}
+
+.resource-btn.increase {
+  background: linear-gradient(to bottom, #16a34a, #15803d);
+  border-color: #ffffff #14532d #14532d #ffffff;
+}
+
+.resource-btn:hover {
+  transform: translateY(-1px);
+}
+
+.resource-btn:active {
+  transform: translateY(1px);
+}
+
+/* Weapon Controls */
+.weapon-controls {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.weapon-item {
+  display: flex;
+  justify-content: center;
+}
+
+.weapon-btn {
+  width: 100%;
+  background: linear-gradient(to bottom, #6b7280, #4b5563);
+  border: 3px solid;
+  border-color: #ffffff #374151 #374151 #ffffff;
+  color: #ffffff;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+  padding: 15px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s;
+  text-shadow: 1px 1px 0px #000000;
+}
+
+.weapon-btn.active {
+  background: linear-gradient(to bottom, #fbbf24, #d97706);
+  border-color: #ffffff #92400e #92400e #ffffff;
+  color: #000000;
+  text-shadow: 1px 1px 0px #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 0 #92400e;
+}
+
+.weapon-btn:hover:not(.active) {
+  background: linear-gradient(to bottom, #9ca3af, #6b7280);
+  transform: translateY(-1px);
+}
+
+.weapon-btn:active {
+  transform: translateY(1px);
+}
+
+/* Enchantments Section */
+.enchantment-note {
+  text-align: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 2px dashed #6b7280;
+  border-radius: 6px;
+}
+
+.enchantment-note p {
+  color: #d1d5db;
+  font-size: 10px;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.enchantment-note em {
+  color: #9ca3af;
+  font-size: 8px;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .controls-row {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .control-section {
+    min-width: 250px;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .control-panel {
+    padding: 10px;
+  }
+  
+  .control-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  
+  .control-header h1 {
+    font-size: 18px;
+  }
+  
+  .nav-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .team-management-section {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .team-selector, .team-name-section, .create-team-section {
+    min-width: 100%;
+  }
+  
+  .controls-row {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .control-section {
+    min-width: 100%;
+    max-width: 100%;
+  }
+  
+  .health-controls {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  
+  .health-btn {
+    font-size: 8px;
+    padding: 8px;
+  }
+  
+  .team-name-input, .new-team-input {
+    font-size: 12px;
+    padding: 10px;
+  }
+  
+  .create-team-btn {
+    font-size: 9px;
+    padding: 10px 12px;
+  }
+  
+  .debug-panel {
+    padding: 15px;
+  }
+  
+  .debug-section pre {
+    font-size: 6px;
+  }
+}
