@@ -5,23 +5,17 @@ import './ControlPanel.css';
 const ControlPanel = () => {
   const { 
     teams, 
-    currentTeam, 
-    gameState, 
-    updateTeamName, 
-    createNewTeam, 
-    setCurrentTeam, 
     updateHealth, 
     updateResource, 
-    toggleWeapon 
+    toggleWeapon,
+    createNewTeam,
+    toggleEnchantment,
+    hideTeam
   } = useGame();
 
   const [newTeamName, setNewTeamName] = useState('');
   const [isCreatingTeam, setIsCreatingTeam] = useState(false);
-  const [showDebug, setShowDebug] = useState(false);
-
-  const handleTeamNameChange = (e) => {
-    updateTeamName(e.target.value);
-  };
+  const [teamToHide, setTeamToHide] = useState(null);
 
   const handleCreateTeam = () => {
     if (newTeamName.trim()) {
@@ -31,78 +25,62 @@ const ControlPanel = () => {
     }
   };
 
-  const handleTeamSwitch = (e) => {
-    setCurrentTeam(e.target.value);
+  const handleHideTeam = (teamName) => {
+    setTeamToHide(teamName);
+  };
+
+  const confirmHideTeam = () => {
+    if (teamToHide) {
+      hideTeam(teamToHide);
+      setTeamToHide(null);
+    }
+  };
+
+  const cancelHideTeam = () => {
+    setTeamToHide(null);
+  };
+
+  const backgroundStyle = {
+    backgroundImage: 'url(/mcbglectern.png)',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundAttachment: 'fixed',
+    position: 'relative'
+  };
+
+  const overlayStyle = {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    zIndex: 1
   };
 
   return (
-    <div className="control-panel">
-      <div className="control-header">
-        <h1>🎮 Control Panel</h1>
-        <div className="nav-links">
-          <a href="/display" target="_blank" rel="noopener noreferrer">
-            Open Display Screen →
-          </a>
-          <button 
-            onClick={() => setShowDebug(!showDebug)}
-            className="debug-toggle-btn"
-          >
-            {showDebug ? '🔒 Hide Debug' : '🐛 Show Debug'}
-          </button>
-        </div>
-      </div>
-
-      {/* Debug Panel */}
-      {showDebug && (
-        <div className="debug-panel">
-          <h3>🐛 Debug Information</h3>
-          <div className="debug-content">
-            <div className="debug-section">
-              <strong>Current Team:</strong> {currentTeam}
-            </div>
-            <div className="debug-section">
-              <strong>Available Teams:</strong> {Object.keys(teams).join(', ')}
-            </div>
-            <div className="debug-section">
-              <strong>Current Team Data:</strong>
-              <pre>{JSON.stringify(gameState, null, 2)}</pre>
-            </div>
+    <div className="control-panel" style={backgroundStyle}>
+      <div className="control-panel-overlay" style={overlayStyle}>
+        <div className="control-header">
+          <h1>Lectern Lore</h1>
+          <div className="nav-links">
+            <a href="/display" target="_blank" rel="noopener noreferrer">
+              Display →
+            </a>
+            <button className="debug-btn">
+              🐛 Debug
+            </button>
           </div>
         </div>
-      )}
 
-      {/* Team Management Section */}
-      <div className="team-management-section">
-        <div className="team-selector">
-          <h2>Select Team</h2>
-          <select 
-            value={currentTeam} 
-            onChange={handleTeamSwitch}
-            className="team-select-dropdown"
-          >
-            {Object.keys(teams).map(team => (
-              <option key={team} value={team}>{team}</option>
-            ))}
-          </select>
-        </div>
-
-        <div className="team-name-section">
-          <h2>Current Team: {currentTeam}</h2>
-          <input
-            type="text"
-            value={currentTeam}
-            onChange={handleTeamNameChange}
-            className="team-name-input"
-            placeholder="Rename team..."
-          />
-        </div>
-
+        {/* Create New Team Section */}
         <div className="create-team-section">
           <button 
             onClick={() => setIsCreatingTeam(!isCreatingTeam)}
             className="create-team-btn"
           >
-            {isCreatingTeam ? 'Cancel' : '➕ Create New Team'}
+            {isCreatingTeam ? 'Cancel' : '➕ CREATE NEW TEAM'}
           </button>
           
           {isCreatingTeam && (
@@ -124,96 +102,135 @@ const ControlPanel = () => {
             </div>
           )}
         </div>
-      </div>
 
-      {/* Horizontal Layout for All Controls */}
-      <div className="controls-row">
-        {/* Health Section */}
-        <div className="control-section">
-          <h2>Health ({gameState.health}/{gameState.maxHealth})</h2>
-          <div className="health-controls">
-            <button onClick={() => updateHealth(-5)} className="health-btn decrease">
-              -5 ❤️
-            </button>
-            <button onClick={() => updateHealth(-1)} className="health-btn decrease">
-              -1 ❤️
-            </button>
-            <button onClick={() => updateHealth(1)} className="health-btn increase">
-              +1 ❤️
-            </button>
-            <button onClick={() => updateHealth(5)} className="health-btn increase">
-              +5 ❤️
-            </button>
-          </div>
-          <div className="health-bar-preview">
-            <div 
-              className="health-fill"
-              style={{ width: `${(gameState.health / gameState.maxHealth) * 100}%` }}
-            ></div>
-          </div>
-        </div>
+        {/* All Teams Horizontal Dashboard */}
+        <div className="teams-horizontal-dashboard">
+          {Object.entries(teams).map(([teamName, teamData]) => (
+            <div key={teamName} className="team-box">
+              <div className="team-box-header">
+                <h2 className="team-title">{teamName}</h2>
+                <button 
+                  onClick={() => handleHideTeam(teamName)}
+                  className="hide-team-btn"
+                  title="Hide/Eliminate Team"
+                >
+                  🚫
+                </button>
+              </div>
 
-        {/* Resources Section */}
-        <div className="control-section">
-          <h2>Resources</h2>
-          <div className="resource-controls">
-            <div className="resource-item">
-              <span>🍎 Apple: {gameState.resources.apple}</span>
-              <div className="resource-buttons">
-                <button onClick={() => updateResource('apple', -1)} className="resource-btn decrease">-</button>
-                <button onClick={() => updateResource('apple', 1)} className="resource-btn increase">+</button>
+              <div className="team-box-content">
+                {/* Health Section */}
+                <div className="team-control-section">
+                  <h3>❤️ Health ({teamData.health}/{teamData.maxHealth})</h3>
+                  <div className="health-controls-compact">
+                    <button onClick={() => updateHealth(teamName, -5)} className="health-btn decrease">-5</button>
+                    <button onClick={() => updateHealth(teamName, -1)} className="health-btn decrease">-1</button>
+                    <button onClick={() => updateHealth(teamName, 1)} className="health-btn increase">+1</button>
+                    <button onClick={() => updateHealth(teamName, 5)} className="health-btn increase">+5</button>
+                  </div>
+                  <div className="health-bar-compact">
+                    <div 
+                      className="health-fill-compact"
+                      style={{ width: `${(teamData.health / teamData.maxHealth) * 100}%` }}
+                    ></div>
+                  </div>
+                </div>
+
+                {/* Resources Section */}
+                <div className="team-control-section">
+                  <h3>📦 Resources</h3>
+                  <div className="resources-compact">
+                    <div className="resource-compact">
+                      <span>🍎 {teamData.resources.apple}</span>
+                      <div className="resource-buttons-compact">
+                        <button onClick={() => updateResource(teamName, 'apple', -1)} className="resource-btn decrease">-</button>
+                        <button onClick={() => updateResource(teamName, 'apple', 1)} className="resource-btn increase">+</button>
+                      </div>
+                    </div>
+                    <div className="resource-compact">
+                      <span>🥩 {teamData.resources.cookedSteak}</span>
+                      <div className="resource-buttons-compact">
+                        <button onClick={() => updateResource(teamName, 'cookedSteak', -1)} className="resource-btn decrease">-</button>
+                        <button onClick={() => updateResource(teamName, 'cookedSteak', 1)} className="resource-btn increase">+</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Weapons Section */}
+                <div className="team-control-section">
+                  <h3>⚔️ Weapons</h3>
+                  <div className="weapons-compact">
+                    <button 
+                      onClick={() => toggleWeapon(teamName, 'arrows')}
+                      className={`weapon-btn-compact ${teamData.weapons.arrows ? 'active' : ''}`}
+                    >
+                      🏹
+                    </button>
+                    <button 
+                      onClick={() => toggleWeapon(teamName, 'shield')}
+                      className={`weapon-btn-compact ${teamData.weapons.shield ? 'active' : ''}`}
+                    >
+                      🛡️
+                    </button>
+                    <button 
+                      onClick={() => toggleWeapon(teamName, 'bow')}
+                      className={`weapon-btn-compact ${teamData.weapons.bow ? 'active' : ''}`}
+                    >
+                      🏹
+                    </button>
+                  </div>
+                </div>
+
+                {/* Enchantments Section */}
+                <div className="team-control-section">
+                  <h3>✨ Enchantments</h3>
+                  <div className="enchantments-compact">
+                    <button 
+                      onClick={() => toggleEnchantment(teamName, 'powerV')}
+                      className={`enchantment-btn-compact ${teamData.enchantments?.powerV ? 'active' : ''}`}
+                    >
+                      ⚡ Power V
+                    </button>
+                    <button 
+                      onClick={() => toggleEnchantment(teamName, 'flame')}
+                      className={`enchantment-btn-compact ${teamData.enchantments?.flame ? 'active' : ''}`}
+                    >
+                      🔥 Flame
+                    </button>
+                    <button 
+                      onClick={() => toggleEnchantment(teamName, 'punch')}
+                      className={`enchantment-btn-compact ${teamData.enchantments?.punch ? 'active' : ''}`}
+                    >
+                      💥 Punch
+                    </button>
+                    <button 
+                      onClick={() => toggleEnchantment(teamName, 'poison')}
+                      className={`enchantment-btn-compact ${teamData.enchantments?.poison ? 'active' : ''}`}
+                    >
+                      ☠️ Poison
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="resource-item">
-              <span>🥩 Cooked Steak: {gameState.resources.cookedSteak}</span>
-              <div className="resource-buttons">
-                <button onClick={() => updateResource('cookedSteak', -1)} className="resource-btn decrease">-</button>
-                <button onClick={() => updateResource('cookedSteak', 1)} className="resource-btn increase">+</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Weapons Section */}
-        <div className="control-section">
-          <h2>Weapons & Items</h2>
-          <div className="weapon-controls">
-            <div className="weapon-item">
-              <button 
-                onClick={() => toggleWeapon('arrows')}
-                className={`weapon-btn ${gameState.weapons.arrows ? 'active' : ''}`}
-              >
-                🏹 Arrows
-              </button>
-            </div>
-            <div className="weapon-item">
-              <button 
-                onClick={() => toggleWeapon('shield')}
-                className={`weapon-btn ${gameState.weapons.shield ? 'active' : ''}`}
-              >
-                🛡️ Shield
-              </button>
-            </div>
-            <div className="weapon-item">
-              <button 
-                onClick={() => toggleWeapon('bow')}
-                className={`weapon-btn ${gameState.weapons.bow ? 'active' : ''}`}
-              >
-                🏹 Bow
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Enchantments Section */}
-        <div className="control-section">
-          <h2>Enchantments</h2>
-          <div className="enchantment-note">
-            <p>✨ Enchantment controls will be added here</p>
-            <p><em>Waiting for enchantment specifications...</em></p>
-          </div>
+          ))}
         </div>
       </div>
+
+      {/* Confirmation Dialog for Hiding Team */}
+      {teamToHide && (
+        <div className="confirmation-dialog">
+          <div className="dialog-content">
+            <h2>Confirm Hide Team</h2>
+            <p>Are you sure you want to hide/eliminate the team "{teamToHide}"? This action cannot be undone.</p>
+            <div className="dialog-actions">
+              <button onClick={confirmHideTeam} className="confirm-btn">Confirm</button>
+              <button onClick={cancelHideTeam} className="cancel-btn">Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

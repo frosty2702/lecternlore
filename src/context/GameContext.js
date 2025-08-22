@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const GameContext = createContext();
 
@@ -10,61 +10,137 @@ export const useGame = () => {
   return context;
 };
 
-export const GameProvider = ({ children }) => {
-  const [teams, setTeams] = useState({
-    'Team Alpha': {
-      health: 100,
-      maxHealth: 100,
-      resources: {
-        apple: 5,
-        cookedSteak: 3
-      },
-      weapons: {
-        arrows: false,
-        shield: false,
-        bow: false
-      },
-      enchantments: {
-        // Will be added when you provide the enchantment details
-      }
-    },
-    'Team Beta': {
-      health: 85,
-      maxHealth: 100,
-      resources: {
-        apple: 2,
-        cookedSteak: 7
-      },
-      weapons: {
-        arrows: true,
-        shield: false,
-        bow: true
-      },
-      enchantments: {
-        // Will be added when you provide the enchantment details
-      }
-    },
-    'Team Gamma': {
-      health: 95,
-      maxHealth: 100,
-      resources: {
-        apple: 8,
-        cookedSteak: 1
-      },
-      weapons: {
-        arrows: false,
-        shield: true,
-        bow: false
-      },
-      enchantments: {
-        // Will be added when you provide the enchantment details
-      }
+// Load initial data from localStorage or use defaults
+const loadInitialData = () => {
+  try {
+    const savedTeams = localStorage.getItem('lecternlore-teams');
+    const savedCurrentTeam = localStorage.getItem('lecternlore-currentTeam');
+    
+    if (savedTeams && savedCurrentTeam) {
+      return {
+        teams: JSON.parse(savedTeams),
+        currentTeam: savedCurrentTeam
+      };
     }
-  });
+  } catch (error) {
+    console.log('No saved data found, using defaults');
+  }
 
-  const [currentTeam, setCurrentTeam] = useState('Team Alpha');
+  // Default teams if no saved data
+  return {
+    teams: {
+      'Team Alpha': {
+        health: 100,
+        maxHealth: 100,
+        resources: {
+          apple: 5,
+          cookedSteak: 3
+        },
+        weapons: {
+          arrows: false,
+          shield: false,
+          bow: false
+        },
+        enchantments: {
+          powerV: false,
+          flame: false,
+          punch: false,
+          poison: false
+        }
+      },
+      'Team Beta': {
+        health: 85,
+        maxHealth: 100,
+        resources: {
+          apple: 2,
+          cookedSteak: 7
+        },
+        weapons: {
+          arrows: true,
+          shield: false,
+          bow: true
+        },
+        enchantments: {
+          powerV: false,
+          flame: false,
+          punch: false,
+          poison: false
+        }
+      },
+      'Team Gamma': {
+        health: 95,
+        maxHealth: 100,
+        resources: {
+          apple: 8,
+          cookedSteak: 1
+        },
+        weapons: {
+          arrows: false,
+          shield: true,
+          bow: false
+        },
+        enchantments: {
+          powerV: false,
+          flame: false,
+          punch: false,
+          poison: false
+        }
+      },
+      'Team Delta': {
+        health: 100,
+        maxHealth: 100,
+        resources: {
+          apple: 11,
+          cookedSteak: 10
+        },
+        weapons: {
+          arrows: false,
+          shield: false,
+          bow: false
+        },
+        enchantments: {
+          powerV: false,
+          flame: false,
+          punch: false,
+          poison: false
+        }
+      }
+    },
+    currentTeam: 'Team Alpha'
+  };
+};
 
-  const getCurrentTeamData = () => teams[currentTeam];
+export const GameProvider = ({ children }) => {
+  const initialData = loadInitialData();
+  const [teams, setTeams] = useState(initialData.teams);
+  const [currentTeam, setCurrentTeam] = useState(initialData.currentTeam);
+
+  // Save to localStorage whenever teams or currentTeam changes
+  useEffect(() => {
+    localStorage.setItem('lecternlore-teams', JSON.stringify(teams));
+    localStorage.setItem('lecternlore-currentTeam', currentTeam);
+  }, [teams, currentTeam]);
+
+  // Listen for storage changes (when other tabs update the data)
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      if (e.key === 'lecternlore-teams') {
+        try {
+          const newTeams = JSON.parse(e.newValue);
+          setTeams(newTeams);
+        } catch (error) {
+          console.error('Error parsing teams from storage:', error);
+        }
+      } else if (e.key === 'lecternlore-currentTeam') {
+        setCurrentTeam(e.newValue);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
+  const getCurrentTeamData = () => teams[currentTeam] || {};
 
   const updateTeamName = (newName) => {
     if (newName && newName !== currentTeam) {
@@ -96,47 +172,116 @@ export const GameProvider = ({ children }) => {
             shield: false,
             bow: false
           },
-          enchantments: {}
+          enchantments: {
+            powerV: false,
+            flame: false,
+            punch: false,
+            poison: false
+          }
         }
       }));
       setCurrentTeam(teamName);
     }
   };
 
-  const updateHealth = (amount) => {
+  const updateHealth = (teamName, amount) => {
     setTeams(prev => ({
       ...prev,
-      [currentTeam]: {
-        ...prev[currentTeam],
-        health: Math.max(0, Math.min(prev[currentTeam].maxHealth, prev[currentTeam].health + amount))
+      [teamName]: {
+        ...prev[teamName],
+        health: Math.max(0, Math.min(prev[teamName].maxHealth, prev[teamName].health + amount))
       }
     }));
   };
 
-  const updateResource = (resource, amount) => {
+  const updateResource = (teamName, resource, amount) => {
     setTeams(prev => ({
       ...prev,
-      [currentTeam]: {
-        ...prev[currentTeam],
+      [teamName]: {
+        ...prev[teamName],
         resources: {
-          ...prev[currentTeam].resources,
-          [resource]: Math.max(0, prev[currentTeam].resources[resource] + amount)
+          ...prev[teamName].resources,
+          [resource]: Math.max(0, prev[teamName].resources[resource] + amount)
         }
       }
     }));
   };
 
-  const toggleWeapon = (weapon) => {
+  const toggleWeapon = (teamName, weapon) => {
     setTeams(prev => ({
       ...prev,
-      [currentTeam]: {
-        ...prev[currentTeam],
+      [teamName]: {
+        ...prev[teamName],
         weapons: {
-          ...prev[currentTeam].weapons,
-          [weapon]: !prev[currentTeam].weapons[weapon]
+          ...prev[teamName].weapons,
+          [weapon]: !prev[teamName].weapons[weapon]
         }
       }
     }));
+  };
+
+  const toggleEnchantment = (teamName, enchantment) => {
+    setTeams(prev => ({
+      ...prev,
+      [teamName]: {
+        ...prev[teamName],
+        enchantments: {
+          ...prev[teamName].enchantments,
+          [enchantment]: !prev[teamName].enchantments[enchantment]
+        }
+      }
+    }));
+  };
+
+  const hideTeam = (teamName) => {
+    setTeams(prev => {
+      const newTeams = { ...prev };
+      delete newTeams[teamName];
+      return newTeams;
+    });
+    
+    // If the hidden team was the current team, switch to another team
+    if (currentTeam === teamName) {
+      const remainingTeams = Object.keys(teams).filter(name => name !== teamName);
+      if (remainingTeams.length > 0) {
+        setCurrentTeam(remainingTeams[0]);
+      }
+    }
+  };
+
+  const resetAllTeams = () => {
+    const defaultTeams = {
+      'Team Alpha': {
+        health: 100,
+        maxHealth: 100,
+        resources: { apple: 5, cookedSteak: 3 },
+        weapons: { arrows: false, shield: false, bow: false },
+        enchantments: { powerV: false, flame: false, punch: false, poison: false }
+      },
+      'Team Beta': {
+        health: 100,
+        maxHealth: 100,
+        resources: { apple: 5, cookedSteak: 3 },
+        weapons: { arrows: false, shield: false, bow: false },
+        enchantments: { powerV: false, flame: false, punch: false, poison: false }
+      },
+      'Team Gamma': {
+        health: 100,
+        maxHealth: 100,
+        resources: { apple: 5, cookedSteak: 3 },
+        weapons: { arrows: false, shield: false, bow: false },
+        enchantments: { powerV: false, flame: false, punch: false, poison: false }
+      },
+      'Team Delta': {
+        health: 100,
+        maxHealth: 100,
+        resources: { apple: 5, cookedSteak: 3 },
+        weapons: { arrows: false, shield: false, bow: false },
+        enchantments: { powerV: false, flame: false, punch: false, poison: false }
+      }
+    };
+    setTeams(defaultTeams);
+    setCurrentTeam('Team Alpha');
   };
 
   const value = {
@@ -148,7 +293,10 @@ export const GameProvider = ({ children }) => {
     setCurrentTeam,
     updateHealth,
     updateResource,
-    toggleWeapon
+    toggleWeapon,
+    toggleEnchantment,
+    resetAllTeams,
+    hideTeam
   };
 
   return (

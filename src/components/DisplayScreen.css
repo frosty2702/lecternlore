@@ -1,11 +1,25 @@
 .display-screen {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
-  background-size: 400% 400%;
-  animation: gradientShift 10s ease infinite;
   padding: 20px;
   font-family: 'Press Start 2P', cursive;
   overflow-x: auto;
+  position: relative;
+}
+
+.display-screen::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1;
+}
+
+.display-screen > * {
+  position: relative;
+  z-index: 2;
 }
 
 @keyframes gradientShift {
@@ -20,6 +34,9 @@
   min-height: calc(100vh - 40px);
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 2;
+  padding: 20px;
 }
 
 /* Loading Message */
@@ -43,6 +60,77 @@
   font-size: 14px;
   color: #cbd5e1;
   text-shadow: 2px 2px 0px #000000;
+  margin-bottom: 20px;
+}
+
+.refresh-btn {
+  background: linear-gradient(to bottom, #3b82f6, #1d4ed8);
+  border: 3px solid;
+  border-color: #ffffff #1e40af #1e40af #ffffff;
+  color: #ffffff;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+  padding: 12px 20px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s;
+  text-shadow: 1px 1px 0px #000000;
+}
+
+.refresh-btn:hover {
+  background: linear-gradient(to bottom, #60a5fa, #3b82f6);
+  transform: translateY(-1px);
+}
+
+.refresh-btn:active {
+  transform: translateY(1px);
+}
+
+/* Update Info */
+.update-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: linear-gradient(to bottom, #374151, #1f2937);
+  border: 3px solid;
+  border-color: #ffffff #111827 #111827 #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 0 #111827;
+}
+
+.update-text {
+  color: #d1d5db;
+  font-size: 12px;
+  text-shadow: 1px 1px 0px #000000;
+}
+
+.refresh-btn-small {
+  background: linear-gradient(to bottom, #3b82f6, #1d4ed8);
+  border: 2px solid;
+  border-color: #ffffff #1e40af #1e40af #ffffff;
+  color: #ffffff;
+  font-size: 16px;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.refresh-btn-small:hover {
+  background: linear-gradient(to bottom, #60a5fa, #3b82f6);
+  transform: translateY(-1px);
+}
+
+.refresh-btn-small:active {
+  transform: translateY(1px);
 }
 
 /* Team Header */
@@ -105,9 +193,8 @@
 .health-label {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 15px;
-  margin-bottom: 20px;
+  gap: 8px;
+  margin-bottom: 10px;
 }
 
 .health-icon {
@@ -362,13 +449,25 @@
 }
 
 /* Responsive Design */
+@media (max-width: 1400px) {
+  .display-container .teams-display-dashboard {
+    max-width: 1000px;
+  }
+}
+
 @media (max-width: 1200px) {
-  .main-content {
-    grid-template-columns: 1fr 1fr;
+  .display-container .teams-display-dashboard {
+    max-width: 95%;
   }
   
-  .enchantments-section {
-    grid-column: 1 / -1;
+  .team-right-section {
+    min-width: 400px;
+  }
+  
+  .weapons-display-section,
+  .resources-display-section,
+  .enchantments-display-section {
+    min-width: 120px;
   }
 }
 
@@ -391,6 +490,21 @@
     position: static;
     margin-top: 15px;
     justify-content: center;
+  }
+  
+  .update-info {
+    padding: 12px;
+    margin-bottom: 15px;
+  }
+  
+  .update-text {
+    font-size: 10px;
+  }
+  
+  .refresh-btn-small {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
   }
   
   .health-section {
@@ -445,5 +559,445 @@
   
   .loading-message p {
     font-size: 12px;
+  }
+  
+  .refresh-btn {
+    font-size: 10px;
+    padding: 10px 16px;
+  }
+}
+
+/* Display Header */
+.display-header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 3px solid;
+  border-color: #ffffff #374151 #374151 #ffffff;
+  border-radius: 12px;
+}
+
+.main-title {
+  color: #fbbf24;
+  font-size: 48px;
+  text-shadow: 3px 3px 0px #000000;
+  margin: 0 0 20px 0;
+  font-family: 'Press Start 2P', cursive;
+}
+
+/* Teams Display Dashboard - Vertical Stacking Layout */
+.display-container .teams-display-dashboard {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 20px;
+  padding: 20px 0;
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.display-container .teams-display-dashboard::-webkit-scrollbar {
+  width: 12px;
+}
+
+.display-container .teams-display-dashboard::-webkit-scrollbar-track {
+  background: #1f2937;
+  border-radius: 6px;
+}
+
+.display-container .teams-display-dashboard::-webkit-scrollbar-thumb {
+  background: #4b5563;
+  border-radius: 6px;
+}
+
+.display-container .teams-display-dashboard::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
+.display-container .team-display-box {
+  background: linear-gradient(to bottom, #374151, #1f2937);
+  border: 3px solid;
+  border-color: #ffffff #111827 #111827 #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  min-height: 150px;
+  box-shadow: 0 8px 0 #111827, 0 15px 25px rgba(0,0,0,0.4);
+  display: flex;
+  flex-direction: row;
+  min-width: 100%;
+  max-width: 100%;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+/* Remove team-row since we're not using rows anymore */
+.team-row {
+  display: contents;
+}
+
+.team-display-header {
+  text-align: center;
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+  border-bottom: 3px solid #4b5563;
+}
+
+.team-display-title {
+  color: #fbbf24;
+  font-size: 24px;
+  text-shadow: 2px 2px 0px #000000;
+  margin: 0;
+  font-family: 'Press Start 2P', cursive;
+}
+
+.team-display-content {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  flex-grow: 1;
+}
+
+.display-container .team-display-content {
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+  flex-grow: 1;
+  width: 100%;
+}
+
+.team-left-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  flex: 1;
+  min-width: 250px;
+}
+
+.team-right-section {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  flex: 2;
+  min-width: 500px;
+  align-items: flex-start;
+}
+
+.weapons-display-section {
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid #4b5563;
+  border-radius: 8px;
+  padding: 15px;
+  flex: 1;
+  min-width: 150px;
+}
+
+.resources-display-section {
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid #4b5563;
+  border-radius: 8px;
+  padding: 15px;
+  flex: 1;
+  min-width: 150px;
+}
+
+.enchantments-display-section {
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid #4b5563;
+  border-radius: 8px;
+  padding: 15px;
+  flex: 1;
+  min-width: 150px;
+}
+
+.team-display-header {
+  text-align: left;
+  margin-bottom: 0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #4b5563;
+}
+
+/* Health Display Section */
+.health-display-section {
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid #4b5563;
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.health-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.health-icon {
+  font-size: 20px;
+}
+
+.health-text {
+  color: #ffffff;
+  font-size: 16px;
+  text-shadow: 1px 1px 0px #000000;
+  font-weight: bold;
+}
+
+.health-bar-display {
+  width: 100%;
+}
+
+.health-bar-background {
+  width: 100%;
+  height: 20px;
+  background: #000000;
+  border: 3px solid #ffffff;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.health-bar-fill {
+  height: 100%;
+  transition: width 0.5s ease;
+}
+
+/* Weapons Display Section */
+.weapons-display-section {
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid #4b5563;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.section-title {
+  color: #fbbf24;
+  font-size: 18px;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 0px #000000;
+  text-align: center;
+}
+
+.weapons-display-grid {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.weapon-display-item {
+  text-align: center;
+  background: rgba(0, 0, 0, 0.2);
+  border: 2px solid #4b5563;
+  border-radius: 6px;
+  padding: 8px;
+  min-width: 60px;
+}
+
+.weapon-icon {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.weapon-name {
+  color: #ffffff;
+  font-size: 10px;
+  text-shadow: 1px 1px 0px #000000;
+}
+
+.empty-weapons {
+  text-align: center;
+  padding: 20px;
+}
+
+.empty-slot {
+  font-size: 32px;
+  margin-bottom: 10px;
+  opacity: 0.5;
+}
+
+.empty-text {
+  color: #9ca3af;
+  font-size: 12px;
+  text-shadow: 1px 1px 0px #000000;
+  opacity: 0.8;
+}
+
+/* Resources Display Section */
+.resources-display-section {
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid #4b5563;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.resources-display-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.resource-display-card {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 2px solid #4b5563;
+  border-radius: 6px;
+  padding: 8px;
+}
+
+.resource-icon {
+  font-size: 24px;
+}
+
+.resource-info {
+  text-align: center;
+}
+
+.resource-name {
+  color: #ffffff;
+  font-size: 12px;
+  text-shadow: 1px 1px 0px #000000;
+  margin-bottom: 5px;
+}
+
+.resource-count {
+  color: #fbbf24;
+  font-size: 18px;
+  text-shadow: 1px 1px 0px #000000;
+  font-weight: bold;
+}
+
+/* Enchantments Display Section */
+.enchantments-display-section {
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid #4b5563;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.enchantments-placeholder {
+  text-align: center;
+  padding: 20px;
+}
+
+.placeholder-text {
+  color: #9ca3af;
+  font-size: 14px;
+  text-shadow: 1px 1px 0px #000000;
+  opacity: 0.8;
+}
+
+.enchantments-display-grid {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.enchantment-display-item {
+  text-align: center;
+  background: rgba(0, 0, 0, 0.2);
+  border: 2px solid #4b5563;
+  border-radius: 6px;
+  padding: 10px;
+  min-width: 60px;
+}
+
+.enchantment-icon {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.enchantment-name {
+  color: #ffffff;
+  font-size: 10px;
+  text-shadow: 1px 1px 0px #000000;
+}
+
+/* Responsive Design */
+@media (max-width: 1400px) {
+  .display-container .teams-display-dashboard {
+    max-width: 1000px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .display-container .teams-display-dashboard {
+    max-width: 95%;
+  }
+  
+  .team-right-section {
+    min-width: 400px;
+  }
+  
+  .weapons-display-section,
+  .resources-display-section,
+  .enchantments-display-section {
+    min-width: 120px;
+  }
+}
+
+@media (max-width: 768px) {
+  .display-container .teams-display-dashboard {
+    max-width: 95%;
+    gap: 15px;
+    padding: 15px 0;
+  }
+  
+  .display-container .team-display-box {
+    min-height: auto;
+    padding: 15px;
+  }
+  
+  .display-container .team-display-content {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .team-left-section,
+  .team-right-section {
+    min-width: 100%;
+  }
+  
+  .team-right-section {
+    flex-direction: column;
+    min-width: 100%;
+  }
+  
+  .weapons-display-section,
+  .resources-display-section,
+  .enchantments-display-section {
+    min-width: 100%;
+  }
+  
+  .main-title {
+    font-size: 32px;
+  }
+  
+  .team-display-title {
+    font-size: 18px;
+  }
+  
+  .health-text {
+    font-size: 14px;
+  }
+  
+  .weapon-display-item {
+    min-width: 60px;
+    padding: 10px;
+  }
+  
+  .resource-display-card {
+    min-width: 90px;
+    padding: 10px;
+  }
+  
+  .section-title {
+    font-size: 16px;
   }
 }

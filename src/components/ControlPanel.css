@@ -1,8 +1,15 @@
 .control-panel {
   min-height: 100vh;
-  background: linear-gradient(135deg, #1a4c96, #2563eb);
   padding: 20px;
   font-family: 'Press Start 2P', cursive;
+  position: relative;
+}
+
+.control-panel-overlay {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  padding: 20px;
 }
 
 .control-header {
@@ -15,6 +22,8 @@
   border: 3px solid;
   border-color: #ffffff #1e3a8a #1e3a8a #ffffff;
   border-radius: 8px;
+  position: relative;
+  z-index: 3;
 }
 
 .control-header h1 {
@@ -47,7 +56,7 @@
   transform: translateY(-1px);
 }
 
-.debug-toggle-btn {
+.debug-btn {
   background: linear-gradient(to bottom, #dc2626, #991b1b);
   border: 2px solid;
   border-color: #ffffff #7f1d1d #7f1d1d #ffffff;
@@ -61,7 +70,7 @@
   text-shadow: 1px 1px 0px #000000;
 }
 
-.debug-toggle-btn:hover {
+.debug-btn:hover {
   background: linear-gradient(to bottom, #ef4444, #b91c1c);
   transform: translateY(-1px);
 }
@@ -500,6 +509,398 @@
   font-size: 8px;
 }
 
+/* Teams Horizontal Dashboard */
+.teams-horizontal-dashboard {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 20px 0;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.team-box {
+  background: linear-gradient(to bottom, #374151, #1f2937);
+  border: 3px solid;
+  border-color: #ffffff #111827 #111827 #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  min-height: 500px;
+  box-shadow: 0 6px 0 #111827, 0 10px 15px rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+}
+
+.team-box-header {
+  text-align: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #4b5563;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.team-title {
+  color: #fbbf24;
+  font-size: 18px;
+  text-shadow: 2px 2px 0px #000000;
+  margin: 0;
+  flex: 1;
+}
+
+.hide-team-btn {
+  background: linear-gradient(to bottom, #dc2626, #991b1b);
+  border: 2px solid;
+  border-color: #ffffff #7f1d1d #7f1d1d #ffffff;
+  color: #ffffff;
+  font-size: 14px;
+  padding: 6px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+  text-shadow: 1px 1px 0px #000000;
+  min-width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hide-team-btn:hover {
+  background: linear-gradient(to bottom, #ef4444, #dc2626);
+  transform: translateY(-1px);
+}
+
+.hide-team-btn:active {
+  transform: translateY(1px);
+}
+
+.team-box-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex-grow: 1;
+}
+
+.team-control-section {
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid #4b5563;
+  border-radius: 6px;
+  padding: 15px;
+}
+
+.team-control-section h3 {
+  color: #fbbf24;
+  font-size: 14px;
+  margin-bottom: 15px;
+  text-shadow: 1px 1px 0px #000000;
+  text-align: center;
+}
+
+/* Compact Health Controls */
+.health-controls-compact {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.health-btn {
+  background: linear-gradient(to bottom, #dc2626, #991b1b);
+  border: 2px solid;
+  border-color: #ffffff #7f1d1d #7f1d1d #ffffff;
+  color: #ffffff;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  padding: 8px 6px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.1s;
+  text-shadow: 1px 1px 0px #000000;
+}
+
+.health-btn.increase {
+  background: linear-gradient(to bottom, #16a34a, #15803d);
+  border-color: #ffffff #14532d #14532d #ffffff;
+}
+
+.health-btn:hover {
+  transform: translateY(-1px);
+}
+
+.health-btn:active {
+  transform: translateY(1px);
+}
+
+.health-bar-compact {
+  width: 100%;
+  height: 16px;
+  background: #000000;
+  border: 2px solid #ffffff;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.health-fill-compact {
+  height: 100%;
+  background: linear-gradient(to right, #16a34a, #22c55e);
+  transition: width 0.3s ease;
+}
+
+/* Compact Resources */
+.resources-compact {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.resource-compact {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid #4b5563;
+  border-radius: 4px;
+}
+
+.resource-compact span {
+  color: #ffffff;
+  font-size: 12px;
+  text-shadow: 1px 1px 0px #000000;
+}
+
+.resource-buttons-compact {
+  display: flex;
+  gap: 4px;
+}
+
+.resource-btn {
+  background: linear-gradient(to bottom, #6b7280, #4b5563);
+  border: 2px solid;
+  border-color: #ffffff #374151 #374151 #ffffff;
+  color: #ffffff;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.1s;
+  text-shadow: 1px 1px 0px #000000;
+  min-width: 24px;
+}
+
+.resource-btn.decrease {
+  background: linear-gradient(to bottom, #dc2626, #991b1b);
+  border-color: #ffffff #7f1d1d #7f1d1d #ffffff;
+}
+
+.resource-btn.increase {
+  background: linear-gradient(to bottom, #16a34a, #15803d);
+  border-color: #ffffff #14532d #14532d #ffffff;
+}
+
+.resource-btn:hover {
+  transform: translateY(-1px);
+}
+
+.resource-btn:active {
+  transform: translateY(1px);
+}
+
+/* Compact Weapons */
+.weapons-compact {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.weapon-btn-compact {
+  background: linear-gradient(to bottom, #6b7280, #4b5563);
+  border: 3px solid;
+  border-color: #ffffff #374151 #374151 #ffffff;
+  color: #ffffff;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 16px;
+  padding: 12px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s;
+  text-shadow: 1px 1px 0px #000000;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.weapon-btn-compact.active {
+  background: linear-gradient(to bottom, #fbbf24, #d97706);
+  border-color: #ffffff #92400e #92400e #ffffff;
+  color: #000000;
+  text-shadow: 1px 1px 0px #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 0 #92400e;
+}
+
+.weapon-btn-compact:hover:not(.active) {
+  background: linear-gradient(to bottom, #9ca3af, #6b7280);
+  transform: translateY(-1px);
+}
+
+.weapon-btn-compact:active {
+  transform: translateY(1px);
+}
+
+/* Enchantment Placeholder */
+.enchantment-placeholder {
+  text-align: center;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 2px dashed #6b7280;
+  border-radius: 6px;
+}
+
+.enchantment-placeholder span {
+  color: #9ca3af;
+  font-size: 10px;
+  text-shadow: 1px 1px 0px #000000;
+  opacity: 0.8;
+}
+
+/* Enchantments Compact */
+.enchantments-compact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.enchantment-btn-compact {
+  background: linear-gradient(to bottom, #6b7280, #4b5563);
+  border: 2px solid;
+  border-color: #ffffff #374151 #374151 #ffffff;
+  color: #ffffff;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+  text-shadow: 1px 1px 0px #000000;
+  text-align: center;
+}
+
+.enchantment-btn-compact.active {
+  background: linear-gradient(to bottom, #fbbf24, #d97706);
+  border-color: #ffffff #92400e #92400e #ffffff;
+  color: #000000;
+  text-shadow: 1px 1px 0px #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 0 #92400e;
+}
+
+.enchantment-btn-compact:hover:not(.active) {
+  background: linear-gradient(to bottom, #9ca3af, #6b7280);
+  transform: translateY(-1px);
+}
+
+.enchantment-btn-compact:active {
+  transform: translateY(1px);
+}
+
+/* Confirmation Dialog */
+.confirmation-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.dialog-content {
+  background: linear-gradient(to bottom, #374151, #1f2937);
+  border: 3px solid;
+  border-color: #ffffff #111827 #111827 #ffffff;
+  border-radius: 12px;
+  padding: 30px;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 10px 0 #111827, 0 20px 40px rgba(0,0,0,0.5);
+}
+
+.dialog-content h2 {
+  color: #fbbf24;
+  font-size: 20px;
+  text-shadow: 2px 2px 0px #000000;
+  margin-bottom: 20px;
+}
+
+.dialog-content p {
+  color: #ffffff;
+  font-size: 14px;
+  text-shadow: 1px 1px 0px #000000;
+  margin-bottom: 25px;
+  line-height: 1.4;
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.confirm-btn {
+  background: linear-gradient(to bottom, #dc2626, #991b1b);
+  border: 2px solid;
+  border-color: #ffffff #7f1d1d #7f1d1d #ffffff;
+  color: #ffffff;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s;
+  text-shadow: 1px 1px 0px #000000;
+}
+
+.confirm-btn:hover {
+  background: linear-gradient(to bottom, #ef4444, #dc2626);
+  transform: translateY(-1px);
+}
+
+.confirm-btn:active {
+  transform: translateY(1px);
+}
+
+.cancel-btn {
+  background: linear-gradient(to bottom, #6b7280, #4b5563);
+  border: 2px solid;
+  border-color: #ffffff #374151 #374151 #ffffff;
+  color: #ffffff;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s;
+  text-shadow: 1px 1px 0px #000000;
+}
+
+.cancel-btn:hover {
+  background: linear-gradient(to bottom, #9ca3af, #6b7280);
+  transform: translateY(-1px);
+}
+
+.cancel-btn:active {
+  transform: translateY(1px);
+}
+
 /* Responsive Design */
 @media (max-width: 1200px) {
   .controls-row {
@@ -571,12 +972,40 @@
     font-size: 9px;
     padding: 10px 12px;
   }
-  
-  .debug-panel {
-    padding: 15px;
+}
+
+/* Responsive Design for Horizontal Layout */
+@media (max-width: 1400px) {
+  .teams-horizontal-dashboard {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 800px;
+  }
+}
+
+@media (max-width: 768px) {
+  .teams-horizontal-dashboard {
+    grid-template-columns: 1fr;
+    max-width: 400px;
   }
   
-  .debug-section pre {
-    font-size: 6px;
+  .team-box {
+    min-height: auto;
+  }
+  
+  .health-controls-compact {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  
+  .health-btn {
+    font-size: 8px;
+    padding: 6px 4px;
+  }
+  
+  .weapon-btn-compact {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+    padding: 8px;
   }
 }
