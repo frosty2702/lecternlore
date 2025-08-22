@@ -58,29 +58,19 @@ const DisplayScreen = () => {
     return icons[weapon] || '⚔️';
   };
 
-  const backgroundStyle = {
-    backgroundImage: 'url(/mcbglectern.png)',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-    backgroundAttachment: 'fixed',
-    position: 'relative'
-  };
-
-  const overlayStyle = {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-    zIndex: 1
-  };
-
   if (!teams || Object.keys(teams).length === 0) {
     return (
-      <div className="display-screen" style={backgroundStyle}>
-        <div className="display-container" style={overlayStyle}>
+      <div 
+        className="display-screen"
+        style={{
+          backgroundImage: 'url(/mcbglectern.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundAttachment: 'fixed'
+        }}
+      >
+        <div className="display-container">
           <div className="loading-message">
             <h1>Loading teams data...</h1>
             <p>Please create teams in the control panel</p>
@@ -94,8 +84,17 @@ const DisplayScreen = () => {
   }
 
   return (
-    <div className="display-screen" style={backgroundStyle}>
-      <div className="display-container" style={overlayStyle}>
+    <div 
+      className="display-screen"
+      style={{
+        backgroundImage: 'url(/mcbglectern.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed'
+      }}
+    >
+      <div className="display-container">
         {/* Header */}
         <div className="display-header">
           <h1 className="main-title">Lectern Lore</h1>
@@ -123,7 +122,9 @@ const DisplayScreen = () => {
             alignItems: 'center'
           }}
         >
-          {Object.entries(teams).map(([teamName, teamData]) => (
+          {Object.entries(teams)
+            .filter(([teamName, teamData]) => !teamData.hidden)
+            .map(([teamName, teamData]) => (
             <div key={teamName} className="team-display-box">
               <div className="team-display-content">
                 {/* Left Section: Team Name and Health */}
@@ -227,14 +228,6 @@ const DisplayScreen = () => {
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Footer */}
-        <div className="display-footer">
-          <div className="status-indicator">
-            <span className="status-dot">🟢</span>
-            <span className="status-text">Live - {Object.keys(teams).length} Teams</span>
-          </div>
         </div>
       </div>
     </div>

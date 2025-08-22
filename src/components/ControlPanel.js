@@ -10,7 +10,8 @@ const ControlPanel = () => {
     toggleWeapon,
     createNewTeam,
     toggleEnchantment,
-    hideTeam
+    hideTeam,
+    unhideTeam
   } = useGame();
 
   const [newTeamName, setNewTeamName] = useState('');
@@ -105,7 +106,9 @@ const ControlPanel = () => {
 
         {/* All Teams Horizontal Dashboard */}
         <div className="teams-horizontal-dashboard">
-          {Object.entries(teams).map(([teamName, teamData]) => (
+          {Object.entries(teams)
+            .filter(([teamName, teamData]) => !teamData.hidden)
+            .map(([teamName, teamData]) => (
             <div key={teamName} className="team-box">
               <div className="team-box-header">
                 <h2 className="team-title">{teamName}</h2>
@@ -216,6 +219,29 @@ const ControlPanel = () => {
             </div>
           ))}
         </div>
+
+        {/* Hidden Teams Section */}
+        {Object.entries(teams).filter(([teamName, teamData]) => teamData.hidden).length > 0 && (
+          <div className="hidden-teams-section">
+            <h2 className="hidden-teams-title">Hidden Teams</h2>
+            <div className="hidden-teams-grid">
+              {Object.entries(teams)
+                .filter(([teamName, teamData]) => teamData.hidden)
+                .map(([teamName, teamData]) => (
+                <div key={teamName} className="hidden-team-item">
+                  <span className="hidden-team-name">{teamName}</span>
+                  <button 
+                    onClick={() => unhideTeam(teamName)}
+                    className="unhide-team-btn"
+                    title="Unhide Team"
+                  >
+                    🔄 Unhide
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Confirmation Dialog for Hiding Team */}
@@ -223,9 +249,9 @@ const ControlPanel = () => {
         <div className="confirmation-dialog">
           <div className="dialog-content">
             <h2>Confirm Hide Team</h2>
-            <p>Are you sure you want to hide/eliminate the team "{teamToHide}"? This action cannot be undone.</p>
+            <p>Are you sure you want to hide the team "{teamToHide}"? Hidden teams won't appear on the display screen but can be unhidden later.</p>
             <div className="dialog-actions">
-              <button onClick={confirmHideTeam} className="confirm-btn">Confirm</button>
+              <button onClick={confirmHideTeam} className="confirm-btn">Hide Team</button>
               <button onClick={cancelHideTeam} className="cancel-btn">Cancel</button>
             </div>
           </div>

@@ -46,7 +46,8 @@ const loadInitialData = () => {
           flame: false,
           punch: false,
           poison: false
-        }
+        },
+        hidden: false
       },
       'Team Beta': {
         health: 85,
@@ -65,7 +66,8 @@ const loadInitialData = () => {
           flame: false,
           punch: false,
           poison: false
-        }
+        },
+        hidden: false
       },
       'Team Gamma': {
         health: 95,
@@ -84,7 +86,8 @@ const loadInitialData = () => {
           flame: false,
           punch: false,
           poison: false
-        }
+        },
+        hidden: false
       },
       'Team Delta': {
         health: 100,
@@ -103,7 +106,8 @@ const loadInitialData = () => {
           flame: false,
           punch: false,
           poison: false
-        }
+        },
+        hidden: false
       }
     },
     currentTeam: 'Team Alpha'
@@ -177,7 +181,8 @@ export const GameProvider = ({ children }) => {
             flame: false,
             punch: false,
             poison: false
-          }
+          },
+          hidden: false
         }
       }));
       setCurrentTeam(teamName);
@@ -234,19 +239,31 @@ export const GameProvider = ({ children }) => {
   };
 
   const hideTeam = (teamName) => {
-    setTeams(prev => {
-      const newTeams = { ...prev };
-      delete newTeams[teamName];
-      return newTeams;
-    });
+    setTeams(prev => ({
+      ...prev,
+      [teamName]: {
+        ...prev[teamName],
+        hidden: true
+      }
+    }));
     
     // If the hidden team was the current team, switch to another team
     if (currentTeam === teamName) {
-      const remainingTeams = Object.keys(teams).filter(name => name !== teamName);
-      if (remainingTeams.length > 0) {
-        setCurrentTeam(remainingTeams[0]);
+      const visibleTeams = Object.keys(teams).filter(name => !teams[name].hidden);
+      if (visibleTeams.length > 0) {
+        setCurrentTeam(visibleTeams[0]);
       }
     }
+  };
+
+  const unhideTeam = (teamName) => {
+    setTeams(prev => ({
+      ...prev,
+      [teamName]: {
+        ...prev[teamName],
+        hidden: false
+      }
+    }));
   };
 
   const resetAllTeams = () => {
@@ -256,28 +273,32 @@ export const GameProvider = ({ children }) => {
         maxHealth: 100,
         resources: { apple: 5, cookedSteak: 3 },
         weapons: { arrows: false, shield: false, bow: false },
-        enchantments: { powerV: false, flame: false, punch: false, poison: false }
+        enchantments: { powerV: false, flame: false, punch: false, poison: false },
+        hidden: false
       },
       'Team Beta': {
         health: 100,
         maxHealth: 100,
         resources: { apple: 5, cookedSteak: 3 },
         weapons: { arrows: false, shield: false, bow: false },
-        enchantments: { powerV: false, flame: false, punch: false, poison: false }
+        enchantments: { powerV: false, flame: false, punch: false, poison: false },
+        hidden: false
       },
       'Team Gamma': {
         health: 100,
         maxHealth: 100,
         resources: { apple: 5, cookedSteak: 3 },
         weapons: { arrows: false, shield: false, bow: false },
-        enchantments: { powerV: false, flame: false, punch: false, poison: false }
+        enchantments: { powerV: false, flame: false, punch: false, poison: false },
+        hidden: false
       },
       'Team Delta': {
         health: 100,
         maxHealth: 100,
         resources: { apple: 5, cookedSteak: 3 },
         weapons: { arrows: false, shield: false, bow: false },
-        enchantments: { powerV: false, flame: false, punch: false, poison: false }
+        enchantments: { powerV: false, flame: false, punch: false, poison: false },
+        hidden: false
       }
     };
     setTeams(defaultTeams);
@@ -296,7 +317,8 @@ export const GameProvider = ({ children }) => {
     toggleWeapon,
     toggleEnchantment,
     resetAllTeams,
-    hideTeam
+    hideTeam,
+    unhideTeam
   };
 
   return (
@@ -305,3 +327,4 @@ export const GameProvider = ({ children }) => {
     </GameContext.Provider>
   );
 };
+
