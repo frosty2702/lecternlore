@@ -17,6 +17,21 @@ const ControlPanel = () => {
   const [newTeamName, setNewTeamName] = useState('');
   const [isCreatingTeam, setIsCreatingTeam] = useState(false);
   const [teamToHide, setTeamToHide] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+  const handlePasswordSubmit = (e) => {
+    e.preventDefault();
+    if (password === 'KANYE$') {
+      setIsAuthenticated(true);
+      setPasswordError('');
+      setPassword('');
+    } else {
+      setPasswordError('Incorrect password. Please try again.');
+      setPassword('');
+    }
+  };
 
   const handleCreateTeam = () => {
     if (newTeamName.trim()) {
@@ -40,6 +55,47 @@ const ControlPanel = () => {
   const cancelHideTeam = () => {
     setTeamToHide(null);
   };
+
+  // Password protection screen
+  if (!isAuthenticated) {
+    return (
+      <div 
+        className="password-screen"
+        style={{
+          backgroundImage: 'url(/mcbglectern.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundAttachment: 'fixed'
+        }}
+      >
+        <div className="password-container">
+          <h1 className="password-title">Lectern Lore</h1>
+          <h2 className="password-subtitle">Control Panel Access</h2>
+          <form onSubmit={handlePasswordSubmit} className="password-form">
+            <div className="password-input-group">
+              <label htmlFor="password" className="password-label">Password:</label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter password..."
+                className="password-input"
+                autoFocus
+              />
+            </div>
+            {passwordError && (
+              <div className="password-error">{passwordError}</div>
+            )}
+            <button type="submit" className="password-submit-btn">
+              Access Control Panel
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   const backgroundStyle = {
     backgroundImage: 'url(/mcbglectern.png)',
@@ -71,6 +127,13 @@ const ControlPanel = () => {
             </a>
             <button className="debug-btn">
               🐛 Debug
+            </button>
+            <button 
+              onClick={() => setIsAuthenticated(false)}
+              className="logout-btn"
+              title="Logout"
+            >
+              🚪 Logout
             </button>
           </div>
         </div>
